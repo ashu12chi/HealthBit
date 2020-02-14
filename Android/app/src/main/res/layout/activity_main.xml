@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/name_text_input1"
+		style="@style/AppTextLayout"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:errorEnabled="true"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.268">
 
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/textKey"
+			android:layout_width="245dp"
+			android:layout_height="50dp"
+			android:hint="Enter Private Key"
+			android:inputType="text" />
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<Button
+		android:id="@+id/btnLogin"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Login"
+		app:layout_constraintBottom_toTopOf="@+id/btnSignUp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.498"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/name_text_input1"
+		app:layout_constraintVertical_bias="0.657" />
+
+	<Button
+		android:id="@+id/btnSignUp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="320dp"
+		android:text="Register"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.498"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/name_text_input1"
+		app:layout_constraintVertical_bias="0.516" />
 </androidx.constraintlayout.widget.ConstraintLayout>
