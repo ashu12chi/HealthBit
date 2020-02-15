@@ -1,3 +1,4 @@
 <resources>
 	<string name="app_name">HealthBit</string>
+	<string name="Ganache">HTTP://192.168.43.185:8545</string>
 </resources>

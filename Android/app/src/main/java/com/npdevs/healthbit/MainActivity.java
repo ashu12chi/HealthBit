@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {    // Login activity
 		Button btnSignUp = findViewById(R.id.btnSignUp);
 		textKey = findViewById(R.id.textKey);
 
-		Web3j web3j = Web3j.build(new HttpService("HTTP://172.29.43.215:8545"));
+		Web3j web3j = Web3j.build(new HttpService(getString(R.string.Ganache)));
 		try {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
@@ -44,9 +44,15 @@ public class MainActivity extends AppCompatActivity {    // Login activity
 			if (!clientVersion.hasError()) {
 				Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
 			} else {
+				System.out.println(clientVersion.getError().getMessage());
+				EditText et=findViewById(R.id.editText);
+				et.setText(clientVersion.getError().getMessage());
 				Toast.makeText(getApplicationContext(), clientVersion.getError().getMessage(), Toast.LENGTH_LONG).show();
 			}
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			EditText et=findViewById(R.id.editText);
+			et.setText(e.getMessage());
 			Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 

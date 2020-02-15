@@ -23,7 +23,8 @@
 			android:layout_width="245dp"
 			android:layout_height="50dp"
 			android:hint="Enter Private Key"
-			android:inputType="text" />
+			android:inputType="text"
+			android:text="efa3daf98cdcf895cb31abc164e6c00b009081776972ad7f580283f1cc0867da" />
 	</com.google.android.material.textfield.TextInputLayout>
 
 	<Button
@@ -50,4 +51,16 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/name_text_input1"
 		app:layout_constraintVertical_bias="0.516" />
+
+	<EditText
+		android:id="@+id/editText"
+		android:layout_width="227dp"
+		android:layout_height="231dp"
+		android:layout_marginStart="96dp"
+		android:layout_marginTop="468dp"
+		android:ems="10"
+		android:gravity="start|top"
+		android:inputType="textMultiLine"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

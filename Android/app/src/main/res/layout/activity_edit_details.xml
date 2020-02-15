@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".users.EditDetails">
+
+	<EditText
+		android:id="@+id/editLocal"
+		android:layout_width="0dp"
+		android:layout_height="44dp"
+		android:layout_marginStart="23dp"
+		android:layout_marginTop="59dp"
+		android:layout_marginEnd="23dp"
+		android:layout_marginBottom="55dp"
+		android:ems="10"
+		android:hint="Locality"
+		android:inputType="textPersonName"
+		app:layout_constraintBottom_toBottomOf="@+id/editHouse"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="1.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/editDistt"
+		app:layout_constraintVertical_bias="0.8" />
+
+	<EditText
+		android:id="@+id/editHouse"
+		android:layout_width="0dp"
+		android:layout_height="44dp"
+		android:layout_marginStart="23dp"
+		android:layout_marginTop="60dp"
+		android:layout_marginEnd="23dp"
+		android:ems="10"
+		android:hint="House No."
+		android:inputType="textPersonName"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="1.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/editDistt" />
+
+	<EditText
+		android:id="@+id/editCountry"
+		android:layout_width="0dp"
+		android:layout_height="44dp"
+		android:layout_marginStart="23dp"
+		android:layout_marginTop="178dp"
+		android:layout_marginEnd="23dp"
+		android:layout_marginBottom="180dp"
+		android:ems="10"
+		android:hint="Country"
+		android:inputType="textPersonName"
+		app:layout_constraintBottom_toTopOf="@+id/editLocal"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="1.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="1.0" />
+
+	<EditText
+		android:id="@+id/editCity"
+		android:layout_width="0dp"
+		android:layout_height="44dp"
+		android:layout_marginStart="23dp"
+		android:layout_marginEnd="23dp"
+		android:layout_marginBottom="116dp"
+		android:ems="10"
+		android:hint="City"
+		android:inputType="textPersonName"
+		app:layout_constraintBottom_toBottomOf="@+id/editDistt"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="1.0"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<EditText
+		android:id="@+id/editState"
+		android:layout_width="0dp"
+		android:layout_height="44dp"
+		android:layout_marginStart="23dp"
+		android:layout_marginTop="54dp"
+		android:layout_marginEnd="23dp"
+		android:layout_marginBottom="56dp"
+		android:ems="10"
+		android:hint="State"
+		android:inputType="textPersonName"
+		app:layout_constraintBottom_toBottomOf="@+id/editDistt"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="1.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/editCity"
+		app:layout_constraintVertical_bias="0.2" />
+
+	<EditText
+		android:id="@+id/editDistt"
+		android:layout_width="0dp"
+		android:layout_height="44dp"
+		android:layout_marginStart="23dp"
+		android:layout_marginEnd="23dp"
+		android:ems="10"
+		android:hint="District"
+		android:inputType="textPersonName"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="1.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.307" />
+
+	<Button
+		android:id="@+id/buttonCancel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="100dp"
+		android:layout_marginBottom="284dp"
+		android:text="Cancel"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+	<Button
+		android:id="@+id/editEdit"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="92dp"
+		android:layout_marginBottom="284dp"
+		android:text="Update"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<Button
+		android:id="@+id/btnChoose"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="168dp"
+		android:text="Choose file"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/btnUpload"
+		app:layout_constraintHorizontal_bias="0.681"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<Button
+		android:id="@+id/btnUpload"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="12dp"
+		android:layout_marginBottom="168dp"
+		android:text="Upload File"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/btnFetch" />
+
+	<Button
+		android:id="@+id/btnFetch"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="20dp"
+		android:layout_marginBottom="168dp"
+		android:text="Fetch file"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+	<EditText
+		android:id="@+id/textNSP"
+		android:layout_width="361dp"
+		android:layout_height="123dp"
+		android:ems="10"
+		android:gravity="start|top"
+		android:inputType="textMultiLine"
+		android:text="QmSCgvcaRaKqfDKfoFRwumuzHbGNYbTjyZcAuvKb8FBXmy"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/btnUpload" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
