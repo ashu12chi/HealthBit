@@ -14,7 +14,9 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme"
 		android:usesCleartextTraffic="true">
-		<activity android:name=".users.ViewBloodRequests"></activity>
+		<activity android:name=".users.ViewFiles"></activity>
+		<activity android:name=".users.UploadFiles" />
+		<activity android:name=".users.ViewBloodRequests" />
 		<activity android:name=".users.SelectPrescription" />
 		<activity android:name=".users.ViewPharmacies" />
 		<activity android:name=".users.ViewCompanies" />

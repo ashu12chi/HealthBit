@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".users.UploadFiles">
+
+	<Button
+		android:id="@+id/btnUpload"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="3dp"
+		android:text="Upload File"
+		app:layout_constraintBaseline_toBaselineOf="@+id/btnChoose"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/btnChoose" />
+
+	<Button
+		android:id="@+id/btnChoose"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="163dp"
+		android:layout_marginEnd="7dp"
+		android:layout_marginBottom="51dp"
+		android:text="Choose file"
+		app:layout_constraintBottom_toTopOf="@+id/textNSP"
+		app:layout_constraintEnd_toStartOf="@+id/btnUpload"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<EditText
+		android:id="@+id/textNSP"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_marginStart="25dp"
+		android:layout_marginEnd="25dp"
+		android:layout_marginBottom="346dp"
+		android:ems="10"
+		android:gravity="start|top"
+		android:inputType="textMultiLine"
+		android:text="QmSCgvcaRaKqfDKfoFRwumuzHbGNYbTjyZcAuvKb8FBXmy"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/btnChoose" />
+</androidx.constraintlayout.widget.ConstraintLayout>

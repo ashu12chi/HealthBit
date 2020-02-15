@@ -6,12 +6,12 @@ contract SignUp {
     uint256 public insurance_companies_count;
     uint256 public usersCount;
     uint256 public pharmacyCount;
-    uint256 public authorize_list_count;
+    uint256 public hashNum;
 
     mapping(uint256 => address) public doctors_list;
     mapping(uint256 => address) public companies_list;
     mapping(uint256 => address) public users_list;
-    mapping(uint256 => address) public authorize_list;
+    mapping(uint256 => File) public file_list;
     mapping(uint256 => address) public pharmacy_list;
     mapping(address => Doctor) private doctors;
     mapping(address => User) private users;
@@ -29,7 +29,6 @@ contract SignUp {
         string name;
         string dob;
         string country;
-        string hash;
         string city;
         string state;
         string district;
@@ -40,6 +39,11 @@ contract SignUp {
         address id;
     }
 
+    struct File {
+        string hash;
+        address id;
+    }
+
     struct Doctor {
         string name;
         string hospital;
@@ -47,7 +51,6 @@ contract SignUp {
         string openTime;
         string closeTime;
         address id;
-        int256 isAuthorized;
     }
 
     struct Pharmacy {
@@ -57,19 +60,16 @@ contract SignUp {
         string openTime;
         string closeTime;
         address id;
-        int256 isAuthorized;
     }
 
     struct BloodBank {
         string name;
         address id;
-        int256 isAuthorized;
     }
 
     struct Company {
         string name;
         address id;
-        int256 isAuthorized;
     }
 
     struct Researcher {
@@ -77,7 +77,6 @@ contract SignUp {
         string researchCenter;
         string aadhar;
         address id;
-        int256 isAuthorized;
     }
 
     constructor() public {
@@ -85,68 +84,13 @@ contract SignUp {
         doctorsCount = 0;
         insurance_companies_count = 0;
         usersCount = 0;
-        authorize_list_count = 0;
         pharmacyCount = 0;
+        hashNum = 0;
     }
 
     modifier onlyOwner() {
         require(msg.sender == owner, "you are not owner");
         _;
-    }
-
-    function authorize(address person, string memory name) public onlyOwner {
-        if (keccak256(abi.encodePacked(name)) == keccak256("doctor")) {
-            doctors[person].isAuthorized = 1;
-            doctors_list[doctorsCount] = person;
-            doctorsCount++;
-        }
-        if (keccak256(abi.encodePacked(name)) == keccak256("researcher"))
-            reaserchers[person].isAuthorized = 1;
-        if (keccak256(abi.encodePacked(name)) == keccak256("bloodBank"))
-            reaserchers[person].isAuthorized = 1;
-        if (keccak256(abi.encodePacked(name)) == keccak256("pharmacy")) {
-            pharmacies[person].isAuthorized = 1;
-            pharmacy_list[pharmacyCount] = person;
-            pharmacyCount++;
-        }
-        if (keccak256(abi.encodePacked(name)) == keccak256("company")) {
-            companies[person].isAuthorized = 1;
-            companies_list[insurance_companies_count] = person;
-            insurance_companies_count++;
-        }
-    }
-
-    function reject(address person, string memory name) public onlyOwner {
-        if (keccak256(abi.encodePacked(name)) == keccak256("doctor")) {
-            doctors[person].isAuthorized = 2;
-        }
-        if (keccak256(abi.encodePacked(name)) == keccak256("researcher"))
-            reaserchers[person].isAuthorized = 2;
-        if (keccak256(abi.encodePacked(name)) == keccak256("bloodBank"))
-            reaserchers[person].isAuthorized = 2;
-        if (keccak256(abi.encodePacked(name)) == keccak256("pharmacy"))
-            pharmacies[person].isAuthorized = 2;
-        if (keccak256(abi.encodePacked(name)) == keccak256("company"))
-            companies[person].isAuthorized = 2;
-    }
-
-    function isAuthorized(address person, string memory name)
-        public
-        view
-        onlyOwner
-        returns (int256)
-    {
-        if (keccak256(abi.encodePacked(name)) == keccak256("doctor")) {
-            return doctors[person].isAuthorized;
-        }
-        if (keccak256(abi.encodePacked(name)) == keccak256("researcher"))
-            return reaserchers[person].isAuthorized;
-        if (keccak256(abi.encodePacked(name)) == keccak256("bloodBank"))
-            return reaserchers[person].isAuthorized;
-        if (keccak256(abi.encodePacked(name)) == keccak256("pharmacy"))
-            return pharmacies[person].isAuthorized;
-        if (keccak256(abi.encodePacked(name)) == keccak256("company"))
-            return companies[person].isAuthorized;
     }
 
     function signupUser(
@@ -159,8 +103,7 @@ contract SignUp {
         string memory _locality,
         string memory _houseNum,
         string memory _aadhar,
-        string memory _bloodGroup,
-        string memory _hash
+        string memory _bloodGroup
     ) public {
         User memory u = users[msg.sender];
         require(!(u.id > address(0x0)), "Address already used to make account");
@@ -176,14 +119,18 @@ contract SignUp {
             houseNum: _houseNum,
             aadhar: _aadhar,
             id: msg.sender,
-            bloodGroup: _bloodGroup,
-            hash: _hash
+            bloodGroup: _bloodGroup
         });
         uAadhar[_aadhar] = true;
         users_list[usersCount] = msg.sender;
         usersCount++;
     }
 
+    function uploadFile(string memory hash, address id) public {
+        file_list[hashNum].id = id;
+        file_list[hashNum].hash = hash;
+        hashNum++;
+    }
     function signupDoctor(
         string memory _name,
         string memory _openTime,
@@ -200,26 +147,17 @@ contract SignUp {
             closeTime: _closeTime,
             aadhar: _aadhar,
             id: msg.sender,
-            isAuthorized: 0,
             hospital: _hospital
         });
         dAadhar[_aadhar] = true;
-        authorize_list[authorize_list_count] = msg.sender;
-        authorize_list_count++;
-        authorisation[msg.sender] = "doctor";
+        doctors_list[doctorsCount] = msg.sender;
+        doctorsCount++;
     }
 
     function signupBloodBank(string memory _name) public {
         BloodBank memory b = bloodBanks[msg.sender];
         require(!(b.id > address(0x0)), "Address already used to make account");
-        bloodBanks[msg.sender] = BloodBank({
-            name: _name,
-            id: msg.sender,
-            isAuthorized: 0
-        });
-        authorize_list[authorize_list_count] = msg.sender;
-        authorize_list_count++;
-        authorisation[msg.sender] = "bloodBank";
+        bloodBanks[msg.sender] = BloodBank({name: _name, id: msg.sender});
     }
 
     function signupResearcher(
@@ -234,26 +172,18 @@ contract SignUp {
             name: _name,
             researchCenter: _researchCenter,
             aadhar: _aadhar,
-            id: msg.sender,
-            isAuthorized: 0
+            id: msg.sender
         });
         rAadhar[_aadhar] = true;
-        authorize_list[authorize_list_count] = msg.sender;
-        authorize_list_count++;
         authorisation[msg.sender] = "researcher";
     }
 
     function signupCompany(string memory _name) public {
         Company memory c = companies[msg.sender];
         require(!(c.id > address(0x0)), "Address already used to make account");
-        companies[msg.sender] = Company({
-            name: _name,
-            id: msg.sender,
-            isAuthorized: 0
-        });
-        authorize_list[authorize_list_count] = msg.sender;
-        authorize_list_count++;
-        authorisation[msg.sender] = "company";
+        companies[msg.sender] = Company({name: _name, id: msg.sender});
+        companies_list[insurance_companies_count] = msg.sender;
+        insurance_companies_count++;
     }
 
     function signupPharmacy(
@@ -271,14 +201,12 @@ contract SignUp {
             pharmacy: _pharmacy,
             aadhar: _aadhar,
             id: msg.sender,
-            isAuthorized: 0,
             openTime: _openTime,
             closeTime: _closeTime
         });
-        authorize_list[authorize_list_count] = msg.sender;
-        authorize_list_count++;
-        authorisation[msg.sender] = "pharmacy";
         pAadhar[_aadhar] = true;
+        pharmacy_list[pharmacyCount] = msg.sender;
+        pharmacyCount++;
     }
 
     function getDoctorDetails(address id)
@@ -320,8 +248,12 @@ contract SignUp {
         );
     }
 
-    function getUserHash(address id) public view returns (string memory) {
-        return (users[id].hash);
+    function getUserHash(uint256 itr) public view returns (string memory) {
+        return (file_list[itr].hash);
+    }
+
+    function getUserAddressHash(uint256 itr) public view returns (address id) {
+        return (file_list[itr].id);
     }
 
     function getPharmacyDetails(address id)
@@ -351,8 +283,7 @@ contract SignUp {
         string memory _state,
         string memory _country,
         string memory _city,
-        string memory _houseNum,
-        string memory _hash
+        string memory _houseNum
     ) public {
         if (keccak256(abi.encodePacked(_locality)) != keccak256(""))
             users[msg.sender].locality = _locality;
@@ -366,8 +297,6 @@ contract SignUp {
             users[msg.sender].city = _city;
         if (keccak256(abi.encodePacked(_houseNum)) != keccak256(""))
             users[msg.sender].houseNum = _houseNum;
-        if (keccak256(abi.encodePacked(_hash)) != keccak256(""))
-            users[msg.sender].hash = _hash;
     }
 
     function editDoctorDetails(

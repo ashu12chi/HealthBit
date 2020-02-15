@@ -10,60 +10,88 @@
 		android:id="@+id/btnEditDetails"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="38dp"
+		android:layout_marginBottom="7dp"
 		android:text="Edit My Details"
 		app:layout_constraintBottom_toTopOf="@+id/btnViewDoc"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent" />
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/btnUpload" />
 
 	<Button
 		android:id="@+id/btnViewDoc"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="17dp"
-		android:layout_marginBottom="34dp"
+		android:layout_marginBottom="3dp"
 		android:text="View Doctors"
 		app:layout_constraintBottom_toTopOf="@+id/btnViewPres"
-		app:layout_constraintStart_toStartOf="@+id/btnViewPres" />
+		app:layout_constraintStart_toStartOf="@+id/btnViewPres"
+		app:layout_constraintTop_toBottomOf="@+id/btnEditDetails" />
 
 	<Button
 		android:id="@+id/btnViewPres"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="23dp"
-		android:layout_marginBottom="37dp"
+		android:layout_marginBottom="6dp"
 		android:text="View Prescriptions"
 		app:layout_constraintBottom_toTopOf="@+id/btnViewInsur"
-		app:layout_constraintEnd_toEndOf="@+id/btnViewInsur" />
+		app:layout_constraintEnd_toEndOf="@+id/btnViewInsur"
+		app:layout_constraintTop_toBottomOf="@+id/btnViewDoc" />
 
 	<Button
 		android:id="@+id/btnViewInsur"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="46dp"
+		android:layout_marginBottom="15dp"
 		android:text="See Insurance Companies"
 		app:layout_constraintBottom_toTopOf="@+id/btnViewPharma"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent" />
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/btnViewPres" />
 
 	<Button
 		android:id="@+id/btnViewPharma"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="16dp"
-		android:layout_marginBottom="43dp"
+		android:layout_marginBottom="12dp"
 		android:text="View Pharmacies"
 		app:layout_constraintBottom_toTopOf="@+id/buttonViewBlood"
-		app:layout_constraintEnd_toEndOf="@+id/buttonViewBlood" />
+		app:layout_constraintEnd_toEndOf="@+id/buttonViewBlood"
+		app:layout_constraintTop_toBottomOf="@+id/btnViewInsur" />
 
 	<Button
 		android:id="@+id/buttonViewBlood"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="133dp"
+		android:layout_marginBottom="14dp"
 		android:text="View Blood requests"
+		app:layout_constraintBottom_toTopOf="@+id/btnViewFiles"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/btnViewPharma" />
+
+	<Button
+		android:id="@+id/btnUpload"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="12dp"
+		android:layout_marginBottom="2dp"
+		android:text="Upload file"
+		app:layout_constraintBottom_toTopOf="@+id/btnEditDetails"
+		app:layout_constraintStart_toStartOf="@+id/btnEditDetails"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<Button
+		android:id="@+id/btnViewFiles"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="9dp"
+		android:text="View Files"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent" />
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/buttonViewBlood" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

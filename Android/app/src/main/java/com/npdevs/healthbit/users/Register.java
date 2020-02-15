@@ -90,7 +90,7 @@ public class Register extends AppCompatActivity {
 			}
 			assert signUp != null;
 			try {
-				tr = signUp.signupUser(sName, sDOB, sCountry, sCity, sState, sDistt, sLocality, sHouse, sAadhaar, sBlood, "abc").send();
+				tr = signUp.signupUser(sName, sDOB, sCountry, sCity, sState, sDistt, sLocality, sHouse, sAadhaar, sBlood).send();
 				Toast.makeText(this, "Registration Successful: " + tr.isStatusOK() + "\nPlease update records using Edit Details option", Toast.LENGTH_LONG).show();
 				if (tr.isStatusOK())
 					finish();

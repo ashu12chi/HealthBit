@@ -7,7 +7,7 @@ contract Processor {
     uint256 public insuranceCount;
     uint256 public blood_request_count;
     mapping(uint256 => bloodRequest) public blood_request_global;
-    mapping(uint256 => prescription) public presGlobal;
+    mapping(uint256 => prescription) private presGlobal;
     mapping(uint256 => insurance) public insuranceGlobal;
 
     SignUp signup;
@@ -156,8 +156,6 @@ contract Processor {
 }
 
 contract SignUp {
-    function authorize(address person, string memory name) public;
-    function reject(address person, string memory name) public;
     function signupUser(
         string memory _name,
         string memory _dob,
@@ -168,8 +166,7 @@ contract SignUp {
         string memory _locality,
         string memory _houseNum,
         string memory _aadhar,
-        string memory _bloodGroup,
-        string memory _hash
+        string memory _bloodGroup
     ) public;
     function signupDoctor(
         string memory _name,
@@ -202,8 +199,7 @@ contract SignUp {
         string memory _state,
         string memory _country,
         string memory _city,
-        string memory _houseNum,
-        string memory _hash
+        string memory _houseNum
     ) public;
     function editDoctorDetails(
         string memory _openTime,
@@ -212,20 +208,21 @@ contract SignUp {
     ) public;
     function editPharmacyDetails(string memory _pharmacy) public;
     function getCompanyDetails(address id) public view returns (string memory);
-    function getUserHash(address id) public view returns (string memory);
+    function uploadFile(string memory hash, address id) public;
+    function getUserHash(uint256 itr) public view returns (string memory);
+    function getUserAddressHash(uint256 itr) public view returns (address id);
     function getUsersCount() public view returns (uint256);
     function getUserBloodGroup(uint256 itr) public view returns (string memory);
     function getUserDetails(address id)
         public
         view
-        returns (string memory, string memory, string memory, string memory);
+        returns (
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory
+        );
     function getUserAddress(uint256 itr) public view returns (address);
-    function getAuthorizeDetails(address id)
-        public
-        view
-        returns (string memory);
-    function isAuthorized(address person, string memory name)
-        public
-        view
-        returns (bool);
 }
