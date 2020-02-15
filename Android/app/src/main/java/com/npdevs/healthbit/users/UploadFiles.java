@@ -23,15 +23,13 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.tuples.generated.Tuple4;
-import org.web3j.tuples.generated.Tuple6;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 
-public class EditDetails extends AppCompatActivity {
+public class UploadFiles extends AppCompatActivity {
 
 	final BigInteger GAS_PRICE = BigInteger.valueOf(20000000000L);
 	final BigInteger GAS_LIMIT = BigInteger.valueOf(6721975L);
@@ -42,32 +40,18 @@ public class EditDetails extends AppCompatActivity {
 	private String imageUri;
 	private String hash = "QmSCgvcaRaKqfDKfoFRwumuzHbGNYbTjyZcAuvKb8FBXmy";
 	private Credentials credentials;
-	private Button buttonRegister, buttonCancel, btnChoose, btnUpload, btnFetch;
-	private EditText eCountry, eCity, eDistt, eState, eLocality, eHouse, textNSP;
-	private String sCountry, sCity, sDistt, sState, sLocality, sHouse;
-	// for processor: 0xfdd29fd0e1aa61d9c0f17032634cda77e4e801e9
+	private EditText textNSP;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_details);
+		setContentView(R.layout.activity_upload_files);
 
-		PRIVATE_KEY = getIntent().getStringExtra("PRIVATE_KEY");
-
-		buttonRegister = findViewById(R.id.editEdit);
-		buttonCancel = findViewById(R.id.buttonCancel);
-		btnUpload = findViewById(R.id.btnUpload);
-		btnChoose = findViewById(R.id.btnChoose);
-		btnFetch = findViewById(R.id.btnFetch);
+		Button btnUpload = findViewById(R.id.btnUpload);
+		Button btnChoose = findViewById(R.id.btnChoose);
 		textNSP = findViewById(R.id.textNSP);
 
-		eCountry = findViewById(R.id.editCountry);
-		eCity = findViewById(R.id.editCity);
-		eState = findViewById(R.id.editState);
-		eDistt = findViewById(R.id.editDistt);
-		eLocality = findViewById(R.id.editLocal);
-		eHouse = findViewById(R.id.editHouse);
-
+		PRIVATE_KEY = getIntent().getStringExtra("PRIVATE_KEY");
 		web3j = Web3j.build(new HttpService(getString(R.string.Ganache)));
 		credentials = Credentials.create(PRIVATE_KEY);
 		signUp = SignUp.load(CONTRACT_ADDRESS, web3j, credentials, GAS_PRICE, GAS_LIMIT);
@@ -86,38 +70,6 @@ public class EditDetails extends AppCompatActivity {
 			Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 
-		try {
-			Tuple6<String, String, String, String, String, String> user = signUp.getUserDetails(credentials.getAddress()).send();
-			eCountry.setText(user.getValue1());
-			eState.setText(user.getValue2());
-			eDistt.setText(user.getValue3());
-			eCity.setText(user.getValue4());
-			eHouse.setText(user.getValue6());
-			eLocality.setText(user.getValue5());
-			textNSP.setText(hash);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		buttonRegister.setOnClickListener(v -> {
-			sCountry = eCountry.getText().toString();
-			sCity = eCity.getText().toString();
-			sState = eState.getText().toString();
-			sDistt = eDistt.getText().toString();
-			sLocality = eLocality.getText().toString();
-			sHouse = eHouse.getText().toString();
-
-			try {
-				TransactionReceipt tr = signUp.editUserDetails(sLocality, sDistt, sState, sCountry, sCity, sHouse).send();
-				Toast.makeText(this, "SUCCESS: " + tr.isStatusOK(), Toast.LENGTH_LONG).show();
-				if (tr.isStatusOK())
-					finish();
-			} catch (Exception e) {
-				e.printStackTrace();
-				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-			}
-		});
-
 		btnChoose.setOnClickListener(v -> {
 			try {
 				openFileChooser();
@@ -130,32 +82,36 @@ public class EditDetails extends AppCompatActivity {
 			try {
 				FileHandler fileHandler = new FileHandler();
 				hash = fileHandler.addFile(imageUri);
+				TransactionReceipt tr=signUp.uploadFile(hash,credentials.getAddress()).send();
 				Toast.makeText(this, imageUri, Toast.LENGTH_LONG).show();
+				textNSP.setText(hash+" "+tr.isStatusOK());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		});
 
-		btnFetch.setOnClickListener(v -> {
-			try {
-				FileHandler fileHandler = new FileHandler();
-				byte[] file = fileHandler.getFile(hash);
-				String fileName = hash + ".txt";
 
-				File picFile = new File("/storage/emulated/0/" + fileName);
+			// FOR TESTING
 
-				OutputStream os = new FileOutputStream(picFile);
-				os.write(file);
-				System.out.println("Successfully byte inserted");
-				os.close();
-				textNSP.setText(new String(file));
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setDataAndType(Uri.fromFile(picFile), "*/*");
-//				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//			try {
+//				FileHandler fileHandler = new FileHandler();
+//				byte[] file = fileHandler.getFile(hash);
+//				String fileName = "UserFile.pdf";
+//
+//				File picFile = new File("/storage/emulated/0/" + fileName);
+//
+//				OutputStream os = new FileOutputStream(picFile);
+//				os.write(file);
+//				System.out.println("Successfully byte inserted");
+//				os.close();
+//				textNSP.setText(new String(file));
+//				Intent intent = new Intent(Intent.ACTION_VIEW);
+//				intent.setDataAndType(Uri.fromFile(picFile), "application/pdf");
+////				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				startActivity(intent);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+
 		});
 	}
 
@@ -170,7 +126,7 @@ public class EditDetails extends AppCompatActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
 			imageUri = getRealPathFromURI(this, data.getData());
-			Toast.makeText(EditDetails.this, imageUri, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, imageUri, Toast.LENGTH_LONG).show();
 			textNSP.setText(imageUri);
 		}
 	}
