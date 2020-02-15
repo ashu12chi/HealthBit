@@ -3,10 +3,8 @@ package com.npdevs.healthbit.bloodbank;
 import com.npdevs.healthbit.contracts.Processor;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tuples.generated.Tuple3;
-import org.web3j.tuples.generated.Tuple4;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

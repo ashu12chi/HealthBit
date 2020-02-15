@@ -96,7 +96,7 @@ public class NewPaitent extends JPanel implements ListSelectionListener {
 
         JButton jButton1 = new JButton("Paitent record");
         jButton1.setFont(new Font("Fira Code Retina", Font.PLAIN, 18));
-        jButton1.setBounds(300,525,150,30);
+        jButton1.setBounds(300,525,250,30);
         add(jButton1);
 
         jButton.addActionListener(new ActionListener() {
