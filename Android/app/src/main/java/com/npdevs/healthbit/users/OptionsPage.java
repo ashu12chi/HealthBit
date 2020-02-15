@@ -23,6 +23,7 @@ public class OptionsPage extends AppCompatActivity {
 		Button buttonViewPres = findViewById(R.id.btnViewPres);
 		Button buttonViewCompanies = findViewById(R.id.btnViewInsur);
 		Button buttonViewPharmacies = findViewById(R.id.btnViewPharma);
+		Button buttonViewBlood = findViewById(R.id.buttonViewBlood);
 
 		buttonViewDoctors.setOnClickListener(v -> {
 			Intent intent = new Intent(this, ViewDoctors.class);
@@ -50,6 +51,12 @@ public class OptionsPage extends AppCompatActivity {
 
 		buttonViewPharmacies.setOnClickListener(v -> {
 			Intent intent = new Intent(this, ViewPharmacies.class);
+			intent.putExtra("PRIVATE_KEY", PRIVATE_KEY);
+			startActivity(intent);
+		});
+
+		buttonViewBlood.setOnClickListener(v -> {
+			Intent intent = new Intent(this, ViewBloodRequests.class);
 			intent.putExtra("PRIVATE_KEY", PRIVATE_KEY);
 			startActivity(intent);
 		});

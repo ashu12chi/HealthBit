@@ -24,7 +24,6 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.tuples.generated.Tuple3;
 import org.web3j.tuples.generated.Tuple4;
 
 import java.math.BigInteger;
@@ -130,8 +129,8 @@ public class SelectPrescription extends AppCompatActivity {
 				viewHolder.textView3.setText(presData.get(position));
 				viewHolder.cardView.setOnClickListener(v -> {
 					try {
-						TransactionReceipt tr=processor.requestPharmacy(BigInteger.valueOf(position),PHARMACY_ADDRESS).send();
-						Toast.makeText(SelectPrescription.this,"Success: "+tr.isStatusOK(),Toast.LENGTH_LONG).show();
+						TransactionReceipt tr = processor.requestPharmacy(BigInteger.valueOf(position), PHARMACY_ADDRESS).send();
+						Toast.makeText(SelectPrescription.this, "Success: " + tr.isStatusOK(), Toast.LENGTH_LONG).show();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

@@ -1,12 +1,12 @@
 package com.npdevs.healthbit.users;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.npdevs.healthbit.R;
 import com.npdevs.healthbit.contracts.SignUp;
@@ -90,8 +90,8 @@ public class Register extends AppCompatActivity {
 			}
 			assert signUp != null;
 			try {
-				tr = signUp.signupUser(sName, sDOB, sCountry, sCity, sState, sDistt, sLocality, sHouse, sAadhaar, sBlood).send();
-				Toast.makeText(this, "Registration Successful: " + tr.isStatusOK(), Toast.LENGTH_LONG).show();
+				tr = signUp.signupUser(sName, sDOB, sCountry, sCity, sState, sDistt, sLocality, sHouse, sAadhaar, sBlood, "abc").send();
+				Toast.makeText(this, "Registration Successful: " + tr.isStatusOK() + "\nPlease update records using Edit Details option", Toast.LENGTH_LONG).show();
 				if (tr.isStatusOK())
 					finish();
 			} catch (Exception e) {

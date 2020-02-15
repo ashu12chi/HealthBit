@@ -22,10 +22,10 @@ import java.math.BigInteger;
 
 public class MainActivity extends AppCompatActivity {    // Login activity
 
-	private EditText textKey;
 	final BigInteger GAS_PRICE = BigInteger.valueOf(20000000000L);
 	final BigInteger GAS_LIMIT = BigInteger.valueOf(6721975L);
 	final private String CONTRACT_ADDRESS = "0x12309af7c3d47e4edbeace57a9c7b0841d054867";
+	private EditText textKey;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +45,13 @@ public class MainActivity extends AppCompatActivity {    // Login activity
 				Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
 			} else {
 				System.out.println(clientVersion.getError().getMessage());
-				EditText et=findViewById(R.id.editText);
+				EditText et = findViewById(R.id.editText);
 				et.setText(clientVersion.getError().getMessage());
 				Toast.makeText(getApplicationContext(), clientVersion.getError().getMessage(), Toast.LENGTH_LONG).show();
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			EditText et=findViewById(R.id.editText);
+			EditText et = findViewById(R.id.editText);
 			et.setText(e.getMessage());
 			Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 		}

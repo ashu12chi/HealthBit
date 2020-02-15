@@ -1,7 +1,6 @@
 package com.npdevs.healthbit.users;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.npdevs.healthbit.MainActivity;
 import com.npdevs.healthbit.R;
 import com.npdevs.healthbit.contracts.SignUp;
 import com.npdevs.healthbit.filehandling.FileHandler;
@@ -25,11 +23,10 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.tuples.generated.Tuple4;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.OutputStream;
 import java.math.BigInteger;
 
@@ -42,7 +39,7 @@ public class EditDetails extends AppCompatActivity {
 	private SignUp signUp;
 	private Web3j web3j;
 	private String imageUri;
-	private String hash="QmSCgvcaRaKqfDKfoFRwumuzHbGNYbTjyZcAuvKb8FBXmy";
+	private String hash = "QmSCgvcaRaKqfDKfoFRwumuzHbGNYbTjyZcAuvKb8FBXmy";
 	private Credentials credentials;
 	private Button buttonRegister, buttonCancel, btnChoose, btnUpload, btnFetch;
 	private EditText eCountry, eCity, eDistt, eState, eLocality, eHouse, textNSP;
@@ -88,6 +85,20 @@ public class EditDetails extends AppCompatActivity {
 			Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 
+		try {
+			Tuple4<String, String, String, String> user = signUp.getUserDetails(credentials.getAddress()).send();
+			eCountry.setText(user.getValue1());
+			eState.setText(user.getValue2());
+			eDistt.setText(user.getValue3());
+			eCity.setText(user.getValue4());
+			eHouse.setText("dhgfdh");
+			eLocality.setText("SHGDHSG");
+			hash = signUp.getUserHash(credentials.getAddress()).send();
+			textNSP.setText(hash);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		buttonRegister.setOnClickListener(v -> {
 			sCountry = eCountry.getText().toString();
 			sCity = eCity.getText().toString();
@@ -97,7 +108,7 @@ public class EditDetails extends AppCompatActivity {
 			sHouse = eHouse.getText().toString();
 
 			try {
-				TransactionReceipt tr = signUp.editUserDetails(sLocality, sDistt, sState, sCountry, sCity, sHouse).send();
+				TransactionReceipt tr = signUp.editUserDetails(sLocality, sDistt, sState, sCountry, sCity, sHouse, hash).send();
 				Toast.makeText(this, "SUCCESS: " + tr.isStatusOK(), Toast.LENGTH_LONG).show();
 				if (tr.isStatusOK())
 					finish();
@@ -129,11 +140,9 @@ public class EditDetails extends AppCompatActivity {
 			try {
 				FileHandler fileHandler = new FileHandler();
 				byte[] file = fileHandler.getFile(hash);
-				String fileName = hash +".txt";
+				String fileName = hash + ".txt";
 
-				ContextWrapper cw = new ContextWrapper(this);
-
-				File picFile = new File("/storage/emulated/0/"+fileName);
+				File picFile = new File("/storage/emulated/0/" + fileName);
 
 				OutputStream os = new FileOutputStream(picFile);
 				os.write(file);
@@ -152,7 +161,7 @@ public class EditDetails extends AppCompatActivity {
 
 	private void openFileChooser() {
 		Intent intent = new Intent();
-		intent.setType("text/plain");
+		intent.setType("*/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
 		startActivityForResult(intent, 1);
 	}
@@ -162,6 +171,7 @@ public class EditDetails extends AppCompatActivity {
 		if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
 			imageUri = getRealPathFromURI(this, data.getData());
 			Toast.makeText(EditDetails.this, imageUri, Toast.LENGTH_LONG).show();
+			textNSP.setText(imageUri);
 		}
 	}
 

@@ -2,12 +2,6 @@ package com.npdevs.healthbit.filehandling;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import io.ipfs.api.IPFS;
 import io.ipfs.api.MerkleNode;
@@ -22,12 +16,7 @@ public class FileHandler {
 	}
 
 	public String addFile(String fileName) {
-		NamedStreamable.FileWrapper file = null;
-//		try {
-			file = new NamedStreamable.FileWrapper(new File((fileName)));
-//		} catch (URISyntaxException e) {
-//			e.printStackTrace();
-//		}
+		NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(new File((fileName)));
 		try {
 			MerkleNode addResult = ipfs.add(file).get(0);
 			System.out.println(addResult.hash.toBase58());

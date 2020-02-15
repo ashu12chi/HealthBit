@@ -3,8 +3,8 @@
 	package="com.npdevs.healthbit">
 
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 	<application
 		android:allowBackup="true"
@@ -14,7 +14,8 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme"
 		android:usesCleartextTraffic="true">
-		<activity android:name=".users.SelectPrescription"></activity>
+		<activity android:name=".users.ViewBloodRequests"></activity>
+		<activity android:name=".users.SelectPrescription" />
 		<activity android:name=".users.ViewPharmacies" />
 		<activity android:name=".users.ViewCompanies" />
 		<activity android:name=".users.ViewPrescriptions" />

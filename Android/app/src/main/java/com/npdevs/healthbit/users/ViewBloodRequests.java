@@ -24,13 +24,13 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.tuples.generated.Tuple4;
+import org.web3j.tuples.generated.Tuple3;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewDoctors extends AppCompatActivity {
+public class ViewBloodRequests extends AppCompatActivity {
 
 	final BigInteger GAS_PRICE = BigInteger.valueOf(20000000000L);
 	final BigInteger GAS_LIMIT = BigInteger.valueOf(6721975L);
@@ -42,14 +42,14 @@ public class ViewDoctors extends AppCompatActivity {
 	private SignUp signUp;
 	private Processor processor;
 	private RecyclerView recyclerView;
-
-	private List<Tuple4<String, String, String, String>> msampleItem = new ArrayList<>();
-	private List<String> docAddress = new ArrayList<>();
+	private String myAddress;
+	private List<Tuple3<String, String, BigInteger>> msampleItem = new ArrayList<Tuple3<String, String, BigInteger>>();
+	private List<Integer> presData = new ArrayList<Integer>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_doctors);
+		setContentView(R.layout.activity_view_blood_requests);
 		PRIVATE_KEY = getIntent().getStringExtra("PRIVATE_KEY");
 
 		web3j = Web3j.build(new HttpService(getString(R.string.Ganache)));
@@ -66,40 +66,42 @@ public class ViewDoctors extends AppCompatActivity {
 			Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 		credentials = Credentials.create(PRIVATE_KEY);
+		myAddress = credentials.getAddress();
 
 		signUp = SignUp.load(CONTRACT_ADDRESS, web3j, credentials, GAS_PRICE, GAS_LIMIT);
 		processor = Processor.load(PROCESSOR_ADDRESS, web3j, credentials, GAS_PRICE, GAS_LIMIT);
-
-		int numberOfDoctor = -1;
+		int numberOfPres = -1;
 
 		try {
-			numberOfDoctor = signUp.doctorsCount().send().intValue();
-			for (int i = 0; i < numberOfDoctor; i++) {
-				String add = signUp.doctors_list(BigInteger.valueOf(i)).send();
-				Tuple4<String, String, String, String> doctor = signUp.getDoctorDetails(add).send();
-				docAddress.add(add);
-				msampleItem.add(doctor);
+			numberOfPres = processor.blood_request_count().send().intValue();
+			Toast.makeText(this, numberOfPres + "", Toast.LENGTH_LONG).show();
+			for (int i = 0; i < numberOfPres; i++) {
+				Tuple3<String, String, BigInteger> pres = processor.getBloodDetails(BigInteger.valueOf(i)).send();
+				if (pres.getValue1().equals(myAddress) && pres.getValue3().equals(BigInteger.ZERO)) {
+					msampleItem.add(pres);
+					Log.e("NSP", "DONE");
+					presData.add(i);
+				}
 			}
-
 			recyclerView = findViewById(R.id.recycler_view);
 			recyclerView.setHasFixedSize(true);
-			RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ViewDoctors.this);
+			RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 			recyclerView.setLayoutManager(layoutManager);
 			RecyclerView.Adapter adapter = new MainAdapter(msampleItem);
 			recyclerView.setAdapter(adapter);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (numberOfDoctor == -1) {
+		if (numberOfPres == -1) {
 			Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
 		}
 	}
 
 	public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-		private List<Tuple4<String, String, String, String>> samples;
+		private List<Tuple3<String, String, BigInteger>> samples;
 
-		MainAdapter(List<Tuple4<String, String, String, String>> samples) {
+		MainAdapter(List<Tuple3<String, String, BigInteger>> samples) {
 			this.samples = samples;
 			Log.e("NSP Recycler", samples.size() + "");
 		}
@@ -111,27 +113,38 @@ public class ViewDoctors extends AppCompatActivity {
 					.from(viewGroup.getContext())
 					.inflate(R.layout.item_doctor, viewGroup, false);
 
-			return new ViewHolder(view);
+			return new MainAdapter.ViewHolder(view);
 		}
 
 		@Override
 		public void onBindViewHolder(@NonNull MainAdapter.ViewHolder viewHolder, int position) {
-			Tuple4<String, String, String, String> doc = samples.get(position);
-			viewHolder.textView.setText("Name: " + doc.getValue1());
-			viewHolder.textView2.setText("Hospital: " + doc.getValue2());
-			viewHolder.textView3.setText("Opens: " + doc.getValue3());
-			viewHolder.textView4.setText("Closes: " + doc.getValue4());
-			viewHolder.cardView.setOnClickListener(v -> {
-				Toast.makeText(ViewDoctors.this, "clicked", Toast.LENGTH_SHORT).show();
-				try {
-					TransactionReceipt tr = processor.requestDoctor(docAddress.get(position), BigInteger.valueOf(60)).send();
-					if (tr.isStatusOK())
-						Toast.makeText(ViewDoctors.this, "success", Toast.LENGTH_LONG).show();
-				} catch (Exception e) {
-					e.printStackTrace();
-					Toast.makeText(ViewDoctors.this, "failure", Toast.LENGTH_LONG).show();
-				}
-			});
+			Tuple3<String, String, BigInteger> doc = samples.get(position);
+			try {
+//				viewHolder.textView.setText("Status: " + doc.getValue2());
+				viewHolder.textView2.setText("Bank: " + doc.getValue2());
+//				viewHolder.textView3.setText(presData.get(position));
+				viewHolder.cardView.setOnClickListener(v -> {
+					try {
+						TransactionReceipt tr = processor.respondBloodRequest(BigInteger.valueOf(presData.get(position)), BigInteger.ONE).send();
+						Toast.makeText(ViewBloodRequests.this, "Success: " + tr.isStatusOK(), Toast.LENGTH_LONG).show();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				});
+				viewHolder.cardView.setOnLongClickListener(v -> {
+					try {
+						TransactionReceipt tr = processor.respondBloodRequest(BigInteger.valueOf(presData.get(position)), BigInteger.valueOf(2)).send();
+						Toast.makeText(ViewBloodRequests.this, "Success: " + tr.isStatusOK(), Toast.LENGTH_LONG).show();
+						return true;
+					} catch (Exception e) {
+						e.printStackTrace();
+						return false;
+					}
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+//			viewHolder.cardView.setClickable(false);
 		}
 
 		@Override
