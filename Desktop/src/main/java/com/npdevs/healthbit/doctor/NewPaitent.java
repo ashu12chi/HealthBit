@@ -6,7 +6,6 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.tuples.generated.Tuple3;
 import org.web3j.tuples.generated.Tuple4;
 
 import javax.swing.*;
@@ -91,13 +90,18 @@ public class NewPaitent extends JPanel implements ListSelectionListener {
 
         JButton jButton = new JButton("Diagnose");
         jButton.setFont(new Font("Fira Code Retina", Font.PLAIN, 18));
-        jButton.setBounds(100,525,150,30);
+        jButton.setBounds(10,525,150,30);
         add(jButton);
 
         JButton jButton1 = new JButton("Paitent record");
         jButton1.setFont(new Font("Fira Code Retina", Font.PLAIN, 18));
-        jButton1.setBounds(300,525,250,30);
+        jButton1.setBounds(170,525,200,30);
         add(jButton1);
+
+        JButton jButton2 = new JButton("Upload report");
+        jButton2.setFont(new Font("Fira Code Retina", Font.PLAIN, 18));
+        jButton2.setBounds(380,525,200,30);
+        add(jButton2);
 
         jButton.addActionListener(new ActionListener() {
             @Override
@@ -123,18 +127,44 @@ public class NewPaitent extends JPanel implements ListSelectionListener {
                 int index = list.getSelectedIndex();
                 String item = (String) listModel.get(index);
                 try {
-                    String a = signUp.getUserHash(item.substring(1+item.indexOf(' '))).send();
-                    FileHandler fileHandler = new FileHandler();
-                    byte[] file = fileHandler.getFile(a);
-                    OutputStream os = new FileOutputStream(new File("user.pdf"));
-                    os.write(file);
-                    os.close();
+                    int count = signUp.hashNum().send().intValue();
+                    for(int i=0;i<count;i++) {
+                        String file_user_address = signUp.getUserAddressHash(BigInteger.valueOf(i)).send();
+                        if(file_user_address.equals(item.substring(1+item.indexOf(' ')))) {
+                            String a = signUp.getUserHash(BigInteger.valueOf(i)).send();
+                            FileHandler fileHandler = new FileHandler();
+                            byte[] file = fileHandler.getFile(a);
+                            OutputStream os = new FileOutputStream(new File("user" + i + ".pdf"));
+                            os.write(file);
+                            os.close();
+                        }
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
 
+        jButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = list.getSelectedIndex();
+                String item = (String) listModel.get(index);
+                JFileChooser jFileChooser = new JFileChooser();
+                int result = jFileChooser.showOpenDialog(NewPaitent.this);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = jFileChooser.getSelectedFile();
+                    try {
+                        FileHandler fileHandler = new FileHandler();
+                        String file1 = fileHandler.addFile(selectedFile.getAbsolutePath());
+                        signUp.uploadFile(file1,item.substring(1+item.indexOf(' '))).send();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+            }
+        });
     }
 
     @Override
