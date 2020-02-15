@@ -24,6 +24,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tuples.generated.Tuple4;
+import org.web3j.tuples.generated.Tuple6;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -86,13 +87,13 @@ public class EditDetails extends AppCompatActivity {
 		}
 
 		try {
-			Tuple4<String, String, String, String> user = signUp.getUserDetails(credentials.getAddress()).send();
+			Tuple6<String, String, String, String, String, String> user = signUp.getUserDetails(credentials.getAddress()).send();
 			eCountry.setText(user.getValue1());
 			eState.setText(user.getValue2());
 			eDistt.setText(user.getValue3());
 			eCity.setText(user.getValue4());
-			eHouse.setText("dhgfdh");
-			eLocality.setText("SHGDHSG");
+			eHouse.setText(user.getValue6());
+			eLocality.setText(user.getValue5());
 			hash = signUp.getUserHash(credentials.getAddress()).send();
 			textNSP.setText(hash);
 		} catch (Exception e) {
