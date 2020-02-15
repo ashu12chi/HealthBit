@@ -1,4 +1,4 @@
-package com.npdevs.healthbit.doctor;
+package com.npdevs.healthbit.reasearch;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,8 +19,6 @@ public class Login extends JFrame {
             public void run() {
                 try {
                     Login frame = new Login();
-                    frame.setTitle("HealthBit");
-                    frame.setResizable(false);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -33,11 +31,21 @@ public class Login extends JFrame {
      * Create the frame.
      */
     public Login() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 634, 526);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         contentPane = new JPanel();
@@ -45,30 +53,28 @@ public class Login extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel label = new JLabel("Doctor");
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 40));
-        label.setBounds(250, 50, 200, 50);
+        JLabel label = new JLabel("");
+        label.setBounds(5, 5, 0, 469);
         contentPane.add(label);
 
-        JLabel lblPassword = new JLabel("Private Key:");
-        lblPassword.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        lblPassword.setBounds(64, 208, 92, 35);
+        JLabel lblPassword = new JLabel("Password");
+        lblPassword.setFont(new Font("Fira Code Retina", Font.PLAIN, 18));
+        lblPassword.setBounds(64, 204, 92, 29);
         contentPane.add(lblPassword);
 
         textField_1 = new JTextField();
         textField_1.setColumns(10);
-        textField_1.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        textField_1.setBounds(193, 208, 347, 35);
+        textField_1.setBounds(193, 208, 347, 22);
         contentPane.add(textField_1);
 
         JButton btnLogin = new JButton("Login");
-        btnLogin.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        btnLogin.setBounds(246, 358, 116, 35);
+        btnLogin.setFont(new Font("Fira Code Retina", Font.PLAIN, 18));
+        btnLogin.setBounds(246, 358, 116, 25);
         contentPane.add(btnLogin);
 
         JButton btnSignUp = new JButton("Sign Up");
-        btnSignUp.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        btnSignUp.setBounds(246, 418, 116, 35);
+        btnSignUp.setFont(new Font("Fira Code Retina", Font.PLAIN, 18));
+        btnSignUp.setBounds(246, 418, 116, 25);
         contentPane.add(btnSignUp);
 
         btnSignUp.addActionListener(new ActionListener() {
@@ -82,14 +88,10 @@ public class Login extends JFrame {
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String doctor_key = textField_1.getText();
                 Front front = new Front(textField_1.getText());
-                front.setTitle("Health Bit");
-                front.setResizable(false);
                 front.setVisible(true);
             }
         });
     }
 }
-
 

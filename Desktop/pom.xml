@@ -19,6 +19,12 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.web3j</groupId>
@@ -36,6 +42,11 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.5</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.ipfs</groupId>-->
+<!--            <artifactId>java-ipfs-http-client</artifactId>-->
+<!--            <version>1.2.3</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>

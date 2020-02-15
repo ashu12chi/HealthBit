@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="cid">
+    <CLASSES>
+      <root url="jar://D:/Soft/Jar/cid.jar!/" />
+      <root url="jar://D:/Soft/Jar/ipfs.jar!/" />
+      <root url="jar://D:/Soft/Jar/multiaddr.jar!/" />
+      <root url="jar://D:/Soft/Jar/multibase.jar!/" />
+      <root url="jar://D:/Soft/Jar/multihash.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

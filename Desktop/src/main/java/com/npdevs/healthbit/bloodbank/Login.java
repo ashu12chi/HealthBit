@@ -1,4 +1,4 @@
-package com.npdevs.healthbit.doctor;
+package com.npdevs.healthbit.bloodbank;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,16 +15,14 @@ public class Login extends JFrame {
      * Launch the application.
      */
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    Login frame = new Login();
-                    frame.setTitle("HealthBit");
-                    frame.setResizable(false);
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                Login frame = new Login();
+                frame.setTitle("HealthBit");
+                frame.setResizable(false);
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
@@ -33,7 +31,7 @@ public class Login extends JFrame {
      * Create the frame.
      */
     public Login() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 634, 526);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -45,9 +43,9 @@ public class Login extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel label = new JLabel("Doctor");
+        JLabel label = new JLabel("Blood Bank");
         label.setFont(new Font("Segoe UI", Font.PLAIN, 40));
-        label.setBounds(250, 50, 200, 50);
+        label.setBounds(210, 50, 200, 50);
         contentPane.add(label);
 
         JLabel lblPassword = new JLabel("Private Key:");
