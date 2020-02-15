@@ -15,3 +15,10 @@ Official repository of team NP Devs for Hack36 2020
 ## Use case diagram
 
 ![Use case diagram here](./UseCaseDiagram.png?raw=true)
+
+## Team Members
+
+1. [Ashutosh Chitranshi](https://github.com/ashu12chi)
+2. [Nishchal Siddharth Pandey](https://github.com/nisiddharth)
+3. [Ankit Raj](https://github.com/rjankit)
+4. [Neeraj Kumar](https://github.com/nk9699)
